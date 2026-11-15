@@ -1,0 +1,23 @@
+{
+  "name": "cpu-lab",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@11.25.0",
+  "description": "An interactive CPU scheduling visualizer for GitHub Pages",
+  "scripts": {
+    "start": "node tools/serve.js",
+    "test": "node --test tests/scheduler.test.js",
+    "check": "node --check scheduler.js && node --check app.js && node --check tools/serve.js",
+    "test:e2e": "playwright test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.10.2",
+    "@playwright/test": "1.56.1",
+    "prettier": "3.6.2"
+  }
+}
