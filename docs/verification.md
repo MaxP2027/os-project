@@ -10,6 +10,7 @@
 - Lighthouse: **Not run**. No Lighthouse score or full accessibility certification is claimed.
 - Public deployment and live smoke tests: **Not verified** until GitHub Pages activation and a successful deployment run.
 - Verification ran with bundled Node 24.22.1 and Chromium 141. Dependencies and browser tests were copied outside OneDrive after sync-related file locking interrupted initial setup.
+- Remote formatting, syntax, and all 11 engine tests passed on the first Actions run. Its browser installation failed because `ubuntu-latest` resolved to Ubuntu 26.04, unsupported by the pinned Playwright release. The workflow now pins Ubuntu 24.04 for a compatible, reproducible environment.
 
 ## Adapted 17-phase tracking
 
