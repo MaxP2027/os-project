@@ -1,6 +1,6 @@
-# CPU Lab
+# CPU Lab · os-project
 
-A browser-based CPU scheduling playground built with HTML, CSS, and plain JavaScript. Enter processes, choose an algorithm, and follow their journey from the ready queue through the CPU to completion.
+The interactive CPU scheduling app for **os-project**, built with HTML, CSS, and plain JavaScript. Enter processes, choose an algorithm, and follow their journey from the ready queue through the CPU to completion.
 
 ## Use the app
 
