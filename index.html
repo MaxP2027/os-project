@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2B1A12">
+  <meta name="description" content="An interactive CPU scheduling playground. Explore FCFS, Shortest Job First, and Round Robin one time unit at a time.">
+  <title>CPU Lab — Scheduling, made visible.</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232B1A12'/%3E%3Crect x='16' y='16' width='32' height='32' rx='6' fill='%23AE6C37'/%3E%3Cpath d='M26 32h12M32 26v12' stroke='%2330C9C0' stroke-width='4'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./scheduler.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <header class="site-header shell">
+    <a class="brand" href="./" aria-label="CPU Lab home"><span class="brand-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span>CPU<span class="brand-light">LAB</span><span class="brand-divider"></span><span class="brand-tag">THE SCHEDULING PLAYGROUND</span></a>
+    <span class="header-note"><span class="status-dot"></span>Built for curious minds</span>
+  </header>
+
+  <main class="shell">
+    <section class="intro" aria-labelledby="page-title">
+      <div><p class="eyebrow"><span></span> EXPLORE THE ORDER OF EXECUTION</p><h1 id="page-title">Scheduling,<br><em>made visible.</em></h1></div>
+      <div class="intro-copy"><p>A queue. A CPU. A little perspective.</p><p>Build your processes, pick an algorithm, and watch<br class="desktop-break"> the operating system put time to work.</p><a href="#how-it-works" class="text-link">A quick guide <span aria-hidden="true">↗</span></a></div>
+    </section>
+
+    <div class="workspace">
+      <aside class="panel configuration" aria-labelledby="config-title">
+        <div class="panel-heading"><div><span class="section-number">01 / CONFIGURE</span><h2 id="config-title">Set the stage</h2></div><span class="small-icon" aria-hidden="true">☷</span></div>
+        <fieldset id="configuration-fields">
+          <legend class="sr-only">Simulation configuration</legend>
+          <label class="field-label" id="algorithm-label">Scheduling algorithm</label>
+          <div class="algorithm-picker" role="group" aria-labelledby="algorithm-label">
+            <button type="button" data-algorithm="fcfs" aria-pressed="true">FCFS</button><button type="button" data-algorithm="sjf" aria-pressed="false">SJF</button><button type="button" data-algorithm="rr" aria-pressed="false">Round Robin</button>
+          </div>
+          <p id="algorithm-description" class="algorithm-description"></p>
+          <div id="quantum-field" class="quantum-field" hidden><label for="quantum">Time quantum <span>time units</span></label><input id="quantum" type="number" min="1" max="10000" step="1" value="2" inputmode="numeric" aria-describedby="quantum-error"><span id="quantum-error" class="field-error"></span></div>
+          <div class="process-heading"><label class="field-label">Processes <span id="process-count" class="count-badge">3</span></label><button type="button" id="load-example" class="text-button">Load example ↗</button></div>
+          <div class="process-column-head" aria-hidden="true"><span>PROCESS</span><span>ARRIVAL</span><span>BURST</span><span></span></div>
+          <div id="process-rows"></div>
+          <button type="button" id="add-process" class="add-process"><span aria-hidden="true">+</span> Add process</button>
+          <p class="input-hint">Arrival = when it joins. Burst = CPU time needed.<br>All times are measured in abstract time units.</p>
+        </fieldset>
+        <p id="validation-message" class="field-error" role="alert"></p>
+        <p id="lock-message" class="lock-message" hidden>Configuration locked. Reset to make changes.</p>
+        <div class="config-footer"><span class="status-dot"></span> One CPU · Zero context-switch overhead</div>
+      </aside>
+
+      <section class="panel simulation" aria-labelledby="simulation-title">
+        <div class="panel-heading"><div><span class="section-number">02 / SIMULATE</span><h2 id="simulation-title">Inside the scheduler</h2></div><span id="run-status" class="status-pill"><span class="status-dot"></span>Ready to run</span></div>
+        <div class="simulation-meta"><span id="algorithm-name">FIRST COME FIRST SERVE</span><span class="clock-label">SYSTEM CLOCK <strong id="clock">00</strong><span>tu</span></span></div>
+        <div class="cpu-stage">
+          <div class="stage-grid" aria-hidden="true"></div>
+          <div class="queue-area"><h3>READY QUEUE <span id="queue-count">0</span></h3><div id="ready-queue" class="process-stack"></div><p id="queue-empty" class="stage-empty">The queue is clear</p></div>
+          <div class="connection incoming" aria-hidden="true"><span>DISPATCH</span><i></i><b>›</b></div>
+          <div class="cpu-area"><div id="cpu" class="cpu"><span class="cpu-top">CENTRAL PROCESSING UNIT</span><svg class="chip-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="11" y="11" width="26" height="26" rx="4" stroke="currentColor" stroke-width="2"/><rect x="18" y="18" width="12" height="12" rx="1" stroke="currentColor" stroke-width="2"/><path d="M17 4v7m7-7v7m7-7v7M17 37v7m7-7v7m7-7v7M4 17h7m-7 7h7m-7 7h7m26-14h7m-7 7h7m-7 7h7" stroke="currentColor" stroke-width="2"/></svg><strong id="cpu-process">CPU</strong><span id="cpu-detail">Awaiting your first run</span><div class="cpu-progress"><span id="cpu-progress-fill"></span></div></div><span id="cpu-state" class="cpu-state"><span class="status-dot"></span> STANDING BY</span></div>
+          <div class="connection outgoing" aria-hidden="true"><span>COMPLETE</span><i></i><b>›</b></div>
+          <div class="completed-area"><h3>COMPLETED <span id="completed-count">0</span></h3><div id="completed-processes" class="process-stack"></div><p id="completed-empty" class="stage-empty">Good things take time</p></div>
+        </div>
+        <div class="stage-caption"><span id="stage-caption">Your processes are ready. Let’s see how they flow.</span><span id="upcoming-label">3 processes · 9 CPU units</span></div>
+        <div class="playback-controls"><div class="main-controls"><button type="button" id="start" class="primary-button"><span aria-hidden="true">▶</span> Start simulation</button><button type="button" id="step" class="secondary-button" aria-label="Step forward one time unit"><span aria-hidden="true">▸│</span> Step</button><button type="button" id="reset" class="icon-button" aria-label="Reset simulation" title="Reset simulation">↺</button></div><label class="speed-control" for="speed">SPEED<select id="speed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select></label></div>
+      </section>
+    </div>
+
+    <section class="panel timeline-panel" aria-labelledby="timeline-title"><div class="timeline-heading"><div><span class="section-number">03 / OBSERVE</span><h2 id="timeline-title">Time tells the story<span class="heading-note">GANTT TIMELINE</span></h2></div><span class="live-indicator"><span class="status-dot"></span><span id="timeline-status">Waiting for execution</span></span></div><div id="timeline" class="timeline" tabindex="0" aria-label="Execution timeline"><div class="timeline-placeholder"><span></span><span></span><span></span><p>Every block is a moment on the CPU. Start a simulation to build your timeline.</p></div></div><div class="timeline-footer"><span>Execution flows from left to right <span aria-hidden="true">→</span></span><span id="timeline-duration">TIME UNITS</span></div></section>
+
+    <section class="results-section" aria-labelledby="results-title"><div class="results-top"><div><span class="section-number">04 / UNDERSTAND</span><h2 id="results-title">Behind the animation</h2></div><p>A closer look at where the time goes.</p></div><div class="metrics"><div class="metric-card"><span>AVG. WAITING TIME</span><div><strong id="avg-waiting">—</strong><span>time units</span></div><p>Time spent waiting for the CPU</p></div><div class="metric-card"><span>AVG. TURNAROUND</span><div><strong id="avg-turnaround">—</strong><span>time units</span></div><p>From arrival to completion</p></div><div class="metric-card"><span>PROCESSES COMPLETED</span><div><strong id="completion-total">0 <small>/ 3</small></strong><span id="completion-percent">0% finished</span></div><div class="completion-track"><span id="completion-fill"></span></div></div></div><div class="panel results-table-wrap"><table><caption class="sr-only">Scheduling results for each process</caption><thead><tr><th scope="col">Process</th><th scope="col">Arrival</th><th scope="col">Burst</th><th scope="col">Completion</th><th scope="col">Turnaround</th><th scope="col">Waiting</th><th scope="col">Status</th></tr></thead><tbody id="results-body"></tbody></table></div></section>
+
+    <section id="how-it-works" class="guide" aria-labelledby="guide-title"><div><span class="section-number">THE SHORT VERSION</span><h2 id="guide-title">Same processes.<br>Different perspectives.</h2><p>Change the algorithm to see how a single decision reshapes the entire queue.</p></div><article><span class="guide-index">01</span><h3>First come, first served.</h3><p>FCFS follows arrival order. Once a process starts, it keeps the CPU until it finishes.</p><span class="guide-tag">THE PATIENT ONE</span></article><article><span class="guide-index">02</span><h3>Short jobs go first.</h3><p>SJF picks the shortest burst among arrived processes. A running process always finishes its turn.</p><span class="guide-tag">THE QUICK THINKER</span></article><article><span class="guide-index">03</span><h3>Everyone gets a turn.</h3><p>Round Robin shares time in fixed slices. Unfinished processes return to the back of the queue.</p><span class="guide-tag">THE FAIR SHARE</span></article></section>
+    <div id="announcements" class="sr-only" role="status" aria-live="polite"></div>
+  </main>
+  <footer class="site-footer shell"><span class="footer-brand">CPU LAB <span>/ A little clarity, one cycle at a time.</span></span><span>NO BLACK BOXES. JUST PROCESSES.</span></footer>
+</body>
+</html>
