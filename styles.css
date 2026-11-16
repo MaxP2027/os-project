@@ -491,31 +491,33 @@ input[aria-invalid='true'] {
 }
 .simulation-meta {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
   padding: 11px 28px;
   border-block: 1px solid var(--line);
   background: var(--panel-deep);
-  font: 8px var(--mono);
+  font: 12px var(--mono);
   letter-spacing: 1px;
   color: var(--muted);
 }
 .clock-label {
   display: flex;
+  margin-left: auto;
   align-items: center;
   gap: 9px;
   white-space: nowrap;
 }
 .clock-label strong {
-  font-size: 23px;
+  font-size: 34.5px;
   line-height: 1;
   font-weight: 500;
   color: var(--text);
   letter-spacing: -1px;
 }
 .clock-label > span {
-  font-size: 9px;
+  font-size: 13.5px;
   letter-spacing: 0;
 }
 .cpu-stage {
@@ -1480,14 +1482,14 @@ td:first-child {
   }
   .simulation-meta {
     padding: 11px 16px;
-    font-size: 6px;
+    font-size: 9px;
   }
   .clock-label {
-    font-size: 6px;
+    font-size: 9px;
     gap: 6px;
   }
   .clock-label strong {
-    font-size: 21px;
+    font-size: 31.5px;
   }
   .stage-caption {
     padding-inline: 16px;
