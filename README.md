@@ -12,14 +12,11 @@ Open `index.html` directly in a browser. No installation, server, account, datab
 4. Pause/resume, change speed, and inspect the growing Gantt timeline.
 5. Review completion, waiting, and turnaround times. Reset to edit the configuration.
 
-
 ## Scheduling rules
 
 - **FCFS:** arrival order; a dispatched process finishes before the next starts.
 - **SJF:** non-preemptive; choose the smallest burst among arrived processes when the CPU becomes available. Equal bursts use arrival time, then original row order.
 - **Round Robin:** FIFO ready queue; run for the quantum or until completion. Arrivals at a slice boundary join before the unfinished process is requeued.
-
-
 
 ## GitHub Pages deployment
 
@@ -30,9 +27,7 @@ Target repository: [MaxP2027/os-project](https://github.com/MaxP2027/os-project)
 3. Open **Actions → Verify and deploy CPU Lab**. Run the workflow on `main` if the initial run happened before Pages was enabled.
 4. Use the deployment URL reported by the `github-pages` environment after the workflow succeeds.
 
-Expected URL after a successful deployment: `https://maxp2027.github.io/os-project/`. 
-
-
+Expected URL after a successful deployment: `https://maxp2027.github.io/os-project/`.
 
 ## Architecture
 
